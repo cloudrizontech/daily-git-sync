@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My SF Dev Portal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #F5F7FA;
+  --surface: #FFFFFF;
+  --surface2: #EDF0F5;
+  --border: #DDE3EE;
+  --text: #1A2035;
+  --text-secondary: #5A6478;
+  --text-muted: #8B95A8;
+  --accent: #2D6BE4;
+  --accent-light: #EBF1FD;
+  --accent-hover: #1A54CC;
+  --green: #1E8A5E;
+  --green-bg: #E8F6F0;
+  --orange: #C85A00;
+  --orange-bg: #FEF3E8;
+  --purple: #6B3FA0;
+  --purple-bg: #F2ECFA;
+  --shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  --shadow-hover: 0 4px 16px rgba(0,0,0,0.1);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.app { display: flex; min-height: 100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 256px;
+  min-width: 256px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebar-logo {
+  padding: 24px 20px 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.logo-icon {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, #2D6BE4, #1A54CC);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+}
+
+.logo-name {
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.3px;
+  color: var(--text);
+}
+
+.logo-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  padding-left: 44px;
+}
+
+.nav-group { padding: 14px 10px 4px; }
+
+.nav-group-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0 8px;
+  margin-bottom: 5px;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  background: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.13s;
+  margin-bottom: 2px;
+}
+
+.nav-btn:hover { background: var(--surface2); color: var(--text); }
+.nav-btn.active { background: var(--accent-light); color: var(--accent); }
+
+.nav-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+.nav-badge {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 20px;
+}
+
+.badge-ready { background: var(--green-bg); color: var(--green); }
+.badge-soon  { background: var(--surface2); color: var(--text-muted); }
+
+/* ── MAIN ── */
+.main {
+  flex: 1;
+  padding: 36px 40px;
+  overflow-y: auto;
+  max-width: 900px;
+}
+
+/* ── PAGE SYSTEM ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── HOME ── */
+.hero {
+  background: linear-gradient(135deg, #2562D4 0%, #1848B0 100%);
+  border-radius: var(--radius);
+  padding: 38px 44px;
+  color: white;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  right: -60px; top: -60px;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  pointer-events: none;
+}
+
+.hero h1 {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.hero p {
+  font-size: 14px;
+  opacity: 0.82;
+  max-width: 520px;
+  line-height: 1.65;
+}
+
+.mantra-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+  background: rgba(255,255,255,0.13);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.module-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.mcard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.18s;
+  box-shadow: var(--shadow);
+}
+
+.mcard:hover {
+  box-shadow: var(--shadow-hover);
+  border-color: #AABFE8;
+  transform: translateY(-1px);
+}
+
+.mcard-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.mcard-icon {
+  width: 38px; height: 38px;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+
+.status-pill {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
+.mcard h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  letter-spacing: -0.2px;
+}
+
+.mcard p {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.mcard-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--surface2);
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+/* ── MENTAL MODEL (Home) ── */
+.big-picture {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 26px;
+  box-shadow: var(--shadow);
+}
+
+.section-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.flow-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+.flow-node {
+  background: var(--accent-light);
+  border: 2px solid #AABFE8;
+  border-radius: var(--radius-sm);
+  padding: 11px 18px;
+  flex: 1;
+  min-width: 130px;
+  text-align: center;
+}
+
+.flow-node.node-local { background: var(--surface2); border-color: var(--border); }
+.flow-node.node-sf    { background: var(--green-bg); border-color: #90D4B8; }
+
+.flow-node-label {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.flow-node-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.flow-arrow {
+  font-size: 18px;
+  color: var(--text-muted);
+  padding: 0 10px;
+  flex-shrink: 0;
+}
+
+.flow-note {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 12px;
+  padding-left: 2px;
+  line-height: 1.5;
+}
+
+/* ── LESSON PAGE ── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.breadcrumb .bc-link {
+  cursor: pointer;
+  transition: color 0.12s;
+}
+
+.breadcrumb .bc-link:hover { color: var(--accent); }
+
+.lesson-title {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.6px;
+  color: var(--text);
+  margin-bottom: 10px;
+  line-height: 1.25;
+}
+
+.chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 26px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 11px;
+  border-radius: 20px;
+}
+
+.chip-git    { background: var(--accent-light); color: var(--accent); }
+.chip-sf     { background: var(--green-bg);     color: var(--green); }
+.chip-vsc    { background: var(--purple-bg);    color: var(--purple); }
+.chip-daily  { background: #FFF7E6; color: #A06000; }
+
+/* ── TRIGGER BOX ── */
+.trigger-box {
+  background: var(--accent-light);
+  border: 1px solid #BDD0F7;
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+}
+
+.trigger-box-icon { font-size: 22px; flex-shrink: 0; }
+
+.trigger-box strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.trigger-box p { font-size: 13px; color: var(--text); line-height: 1.6; }
+
+/* ── QUICK REF BLOCK ── */
+.qr-wrap {
+  background: #1C2438;
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 28px;
+}
+
+.qr-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.qr-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: #5B6F96;
+}
+
+.copy-btn {
+  font-size: 11px;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+  color: #7B91B8;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.copy-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+.qr-pre {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 2;
+  white-space: pre-wrap;
+  color: #C8D8F4;
+}
+
+.c-git     { color: #7BB8FF; }
+.c-sf      { color: #5DDBA7; }
+.c-comment { color: #445070; font-style: italic; }
+.c-flag    { color: #FFB86C; }
+
+/* ── MENTAL MODEL CARD ── */
+.model-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow);
+}
+
+.model-card .section-eyebrow { margin-bottom: 14px; }
+
+/* ── STEPS ── */
+.steps-wrap { margin-bottom: 28px; }
+
+.step {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.step-hd {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.13s;
+}
+
+.step-hd:hover { background: var(--surface2); }
+
+.step-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.step-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
+}
+
+.step-chevron {
+  color: var(--text-muted);
+  font-size: 13px;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.step.open .step-chevron { transform: rotate(180deg); }
+
+.step-body {
+  display: none;
+  padding: 6px 18px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.step.open .step-body { display: block; }
+
+.step-why {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 12px 0 14px;
+  line-height: 1.65;
+  padding-left: 2px;
+}
+
+.cmd-block {
+  background: #F3F6FB;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  margin: 8px 0;
+}
+
+.cmd-block-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 7px;
+}
+
+.cmd-block code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 500;
+  display: block;
+  line-height: 1.9;
+}
+
+.cmd-tags { margin-top: 10px; }
+
+.ctag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-right: 4px;
+}
+
+.ctag-git { background: var(--accent-light); color: var(--accent); }
+.ctag-sf  { background: var(--green-bg);     color: var(--green); }
+.ctag-vsc { background: var(--purple-bg);    color: var(--purple); }
+
+/* ── DECISION BOX ── */
+.decision-box {
+  background: var(--purple-bg);
+  border: 1px solid #C5AADF;
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  margin: 12px 0;
+}
+
+.decision-box-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--purple);
+  margin-bottom: 12px;
+}
+
+.decision-opts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.d-opt {
+  background: white;
+  border: 1px solid #C5AADF;
+  border-radius: 7px;
+  padding: 12px 14px;
+}
+
+.d-opt-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--purple);
+  margin-bottom: 6px;
+}
+
+.d-opt code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  display: block;
+  margin-bottom: 6px;
+  background: var(--surface2);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.d-opt p { font-size: 11px; color: var(--text-secondary); line-height: 1.5; }
+
+/* ── WATCH OUT ── */
+.watch-box {
+  background: var(--orange-bg);
+  border: 1px solid #FDDBB4;
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin-top: 22px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.watch-icon { font-size: 20px; flex-shrink: 0; }
+
+.watch-box strong {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--orange);
+  margin-bottom: 5px;
+}
+
+.watch-box p { font-size: 12px; color: var(--text); line-height: 1.6; }
+
+/* ── HIGHLIGHT NOTE ── */
+.note-green {
+  background: var(--green-bg);
+  border-left: 3px solid var(--green);
+  border-radius: 0 6px 6px 0;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--text);
+  margin: 10px 0;
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1.6;
+}
+
+/* ── PR FLOW BOX ── */
+.pr-flow-box {
+  background: var(--accent-light);
+  border: 1px solid #BDD0F7;
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+
+.pr-flow-box .section-eyebrow { color: var(--accent); margin-bottom: 12px; }
+
+/* ── COMING SOON ── */
+.cs-page {
+  background: var(--surface);
+  border: 1px dashed #C8D4E8;
+  border-radius: var(--radius);
+  padding: 40px;
+  text-align: center;
+}
+
+.cs-icon { font-size: 40px; margin-bottom: 14px; }
+
+.cs-page h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.cs-page p { font-size: 13px; color: var(--text-secondary); margin-bottom: 28px; }
+
+.cs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  text-align: left;
+}
+
+.cs-item {
+  background: var(--surface2);
+  border-radius: 9px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cs-item-icon { font-size: 22px; }
+
+.cs-item strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.cs-item span { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ────────────── SIDEBAR ────────────── -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-row">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-name">SF Dev Portal</span>
+    </div>
+    <div class="logo-sub">Your personal command reference</div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Start Here</div>
+    <button class="nav-btn active" onclick="show('home')">
+      <span class="nav-dot" style="background:#2D6BE4"></span>
+      Home
+    </button>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Git Workflows</div>
+    <button class="nav-btn" onclick="show('m1')">
+      <span class="nav-dot" style="background:#2D6BE4"></span>
+      Daily Git Sync
+      <span class="nav-badge badge-ready">✓ Ready</span>
+    </button>
+    <button class="nav-btn" onclick="show('m2')">
+      <span class="nav-dot" style="background:#2D6BE4"></span>
+      Start a New Story
+      <span class="nav-badge badge-soon">Soon</span>
+    </button>
+    <button class="nav-btn" onclick="show('m5')">
+      <span class="nav-dot" style="background:#2D6BE4"></span>
+      Commit &amp; Push
+      <span class="nav-badge badge-soon">Soon</span>
+    </button>
+    <button class="nav-btn" onclick="show('m6')">
+      <span class="nav-dot" style="background:#2D6BE4"></span>
+      Pull Requests
+      <span class="nav-badge badge-soon">Soon</span>
+    </button>
+    <button class="nav-btn" onclick="show('mc')">
+      <span class="nav-dot" style="background:#2D6BE4"></span>
+      Resolve Conflicts
+      <span class="nav-badge badge-soon">Soon</span>
+    </button>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Salesforce CLI</div>
+    <button class="nav-btn" onclick="show('m3')">
+      <span class="nav-dot" style="background:#1E8A5E"></span>
+      SF CLI Core
+      <span class="nav-badge badge-soon">Soon</span>
+    </button>
+    <button class="nav-btn" onclick="show('m8')">
+      <span class="nav-dot" style="background:#1E8A5E"></span>
+      Deployments
+      <span class="nav-badge badge-soon">Soon</span>
+    </button>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Dev Work</div>
+    <button class="nav-btn" onclick="show('m9')">
+      <span class="nav-dot" style="background:#6B3FA0"></span>
+      Apex &amp; LWC
+      <span class="nav-badge badge-soon">Soon</span>
+    </button>
+    <button class="nav-btn" onclick="show('m7')">
+      <span class="nav-dot" style="background:#6B3FA0"></span>
+      Codespaces &amp; AI
+      <span class="nav-badge badge-soon">Soon</span>
+    </button>
+  </div>
+</aside>
+
+<!-- ────────────── MAIN ────────────── -->
+<main class="main">
+
+  <!-- ══ HOME ══ -->
+  <div class="page active" id="page-home">
+    <div class="hero">
+      <h1>You know this.<br>You've got this. ✌️</h1>
+      <p>A calm, personal reference for every command you run on enterprise Salesforce projects — Git, GitHub, VS Code, SF CLI, and beyond. Look it up, follow the steps, and ship with confidence.</p>
+      <div class="mantra-pill">⚡ Point, click, command, collaborate — all you.</div>
+    </div>
+
+    <p class="section-eyebrow">Your Modules</p>
+
+    <div class="module-grid">
+      <div class="mcard" onclick="show('m1')">
+        <div class="mcard-top">
+          <div class="mcard-icon" style="background:var(--accent-light)">🔄</div>
+          <span class="status-pill badge-ready">● Ready</span>
+        </div>
+        <h3>Daily Git Sync</h3>
+        <p>Keep your branch current before starting work, mid-sprint, or before a PR. The #1 habit that prevents conflicts.</p>
+        <div class="mcard-trigger">⏰ Use at the start of every day</div>
+      </div>
+
+      <div class="mcard" onclick="show('m2')">
+        <div class="mcard-top">
+          <div class="mcard-icon" style="background:var(--accent-light)">🌿</div>
+          <span class="status-pill badge-soon">Coming soon</span>
+        </div>
+        <h3>Start a New Story</h3>
+        <p>Create a branch from the right base, name it correctly, and connect it to your team's ticket or work item.</p>
+        <div class="mcard-trigger">🎯 Use when picking up a new task</div>
+      </div>
+
+      <div class="mcard" onclick="show('m3')">
+        <div class="mcard-top">
+          <div class="mcard-icon" style="background:var(--green-bg)">☁️</div>
+          <span class="status-pill badge-soon">Coming soon</span>
+        </div>
+        <h3>Salesforce CLI Core</h3>
+        <p>Auth, org management, push/pull metadata, run Apex tests. The SF CLI commands you need every single day.</p>
+        <div class="mcard-trigger">🔑 Use to deploy and test your work</div>
+      </div>
+
+      <div class="mcard" onclick="show('m6')">
+        <div class="mcard-top">
+          <div class="mcard-icon" style="background:var(--accent-light)">📬</div>
+          <span class="status-pill badge-soon">Coming soon</span>
+        </div>
+        <h3>Pull Requests</h3>
+        <p>Pre-PR checklist, creating the PR, responding to reviews, merging cleanly. How other devs do it — now you do too.</p>
+        <div class="mcard-trigger">✅ Use before every code review</div>
+      </div>
+
+      <div class="mcard" onclick="show('m8')">
+        <div class="mcard-top">
+          <div class="mcard-icon" style="background:var(--green-bg)">🚀</div>
+          <span class="status-pill badge-soon">Coming soon</span>
+        </div>
+        <h3>Deployments</h3>
+        <p>Sandbox → staging → UAT → production. Full and quick deploy sequences, rollback, and validation steps.</p>
+        <div class="mcard-trigger">📦 Use on release day</div>
+      </div>
+
+      <div class="mcard" onclick="show('m9')">
+        <div class="mcard-top">
+          <div class="mcard-icon" style="background:var(--purple-bg)">⚙️</div>
+          <span class="status-pill badge-soon">Coming soon</span>
+        </div>
+        <h3>Apex &amp; LWC</h3>
+        <p>File structure, retrieve-before-edit, deploy single files, run test classes, scaffold new components.</p>
+        <div class="mcard-trigger">💻 Use when writing code</div>
+      </div>
+    </div>
+
+    <div class="big-picture">
+      <div class="section-eyebrow">🧠 The Big Picture — How it all connects</div>
+      <div class="flow-row">
+        <div class="flow-node">
+          <div class="flow-node-label">Layer 1 — Remote</div>
+          <div class="flow-node-val">GitHub (origin)</div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node node-local">
+          <div class="flow-node-label">Layer 2 — Local Base</div>
+          <div class="flow-node-val">local develop</div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node node-local">
+          <div class="flow-node-label">Layer 3 — Your Work</div>
+          <div class="flow-node-val">feature/your-story</div>
+        </div>
+        <div class="flow-arrow">↔</div>
+        <div class="flow-node node-sf">
+          <div class="flow-node-label">Salesforce Org</div>
+          <div class="flow-node-val">sf deploy / retrieve</div>
+        </div>
+      </div>
+      <p class="flow-note">Before any meaningful work: make sure <strong>Layer 1 → 2 → 3</strong> are all in sync. Then deploy to your org. That's the whole game.</p>
+    </div>
+  </div>
+
+  <!-- ══ MODULE 1: DAILY GIT SYNC ══ -->
+  <div class="page" id="page-m1">
+
+    <div class="breadcrumb">
+      <span class="bc-link" onclick="show('home')">Home</span>
+      <span>›</span>
+      <span style="color:var(--text-secondary)">Git Workflows</span>
+      <span>›</span>
+      <span style="color:var(--text); font-weight:500;">Daily Git Sync</span>
+    </div>
+
+    <h1 class="lesson-title">🔄 Daily Git Sync</h1>
+
+    <div class="chips">
+      <span class="chip chip-git">⎇ Git</span>
+      <span class="chip chip-vsc">VS Code Terminal</span>
+      <span class="chip chip-daily">⏰ Daily habit</span>
+    </div>
+
+    <!-- TRIGGER -->
+    <div class="trigger-box">
+      <span class="trigger-box-icon">⏰</span>
+      <div>
+        <strong>When to use this</strong>
+        <p>Run this at the <strong>start of every working day</strong>, before you create a PR, or any time you haven't synced in a few hours. On Salesforce projects, syncing often = fewer metadata conflicts. A 2-minute habit that prevents 2-hour headaches.</p>
+      </div>
+    </div>
+
+    <!-- QUICK REF -->
+    <div class="qr-wrap">
+      <div class="qr-header">
+        <span class="qr-label">⚡ Quick Reference — Just the commands, in order</span>
+        <button class="copy-btn" id="copybtn" onclick="doCopy()">Copy all</button>
+      </div>
+      <pre class="qr-pre" id="qrpre"><span class="c-comment"># 1. See where you are</span>
+<span class="c-git">git status</span>
+
+<span class="c-comment"># 2. Download everything from GitHub (safe — nothing changes yet)</span>
+<span class="c-git">git fetch origin</span>
+
+<span class="c-comment"># 3. Update your local develop to match GitHub</span>
+<span class="c-git">git checkout develop</span>
+<span class="c-git">git pull origin develop</span>
+
+<span class="c-comment"># 4. Go back to your feature branch</span>
+<span class="c-git">git checkout feature/your-story</span>
+
+<span class="c-comment"># 5. Bring in the latest develop changes</span>
+<span class="c-git">git merge develop</span>
+<span class="c-comment">#  — or, before a PR (cleaner history) —</span>
+<span class="c-git">git rebase develop</span>
+
+<span class="c-comment"># 6. Confirm everything is up to date</span>
+<span class="c-git">git status</span>
+<span class="c-git">git log --oneline --graph --decorate -10</span></pre>
+    </div>
+
+    <!-- MENTAL MODEL -->
+    <div class="model-card">
+      <div class="section-eyebrow">🧠 Mental Model — Git in 3 layers</div>
+      <div class="flow-row">
+        <div class="flow-node">
+          <div class="flow-node-label">Remote</div>
+          <div class="flow-node-val">GitHub origin/develop</div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node node-local">
+          <div class="flow-node-label">Local Base</div>
+          <div class="flow-node-val">your local develop</div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node node-local">
+          <div class="flow-node-label">Your Work</div>
+          <div class="flow-node-val">feature/your-story</div>
+        </div>
+      </div>
+      <p class="flow-note">Before doing anything meaningful: make sure Remote → Local Base → Your Work are all in sync. That's it. This workflow is how you do that.</p>
+    </div>
+
+    <!-- STEPS -->
+    <div class="steps-wrap">
+      <div class="section-eyebrow" style="margin-bottom:14px;">Step-by-step walkthrough — click any step to expand</div>
+
+      <div class="step open" id="s1">
+        <div class="step-hd" onclick="toggleStep('s1')">
+          <div class="step-num">1</div>
+          <span class="step-name">Verify which branch you're on</span>
+          <span class="step-chevron">▾</span>
+        </div>
+        <div class="step-body">
+          <p class="step-why">Before touching anything, know where you are. It's easy to accidentally commit to develop or the wrong feature branch. This takes 2 seconds.</p>
+          <div class="cmd-block">
+            <div class="cmd-block-label">Run either of these</div>
+            <code>git branch</code>
+            <code>git status</code>
+          </div>
+          <div class="cmd-tags"><span class="ctag ctag-git">Git</span></div>
+          <p style="font-size:12px; color:var(--text-secondary); margin-top:10px;">You'll see a <code style="font-family:JetBrains Mono,monospace; background:var(--surface2); padding:1px 5px; border-radius:3px;">*</code> next to your current branch — for example <code style="font-family:JetBrains Mono,monospace; background:var(--surface2); padding:1px 5px; border-radius:3px; color:var(--accent)">* feature/contract-amendment</code>.</p>
+        </div>
+      </div>
+
+      <div class="step" id="s2">
+        <div class="step-hd" onclick="toggleStep('s2')">
+          <div class="step-num">2</div>
+          <span class="step-name">Fetch the latest changes from GitHub</span>
+          <span class="step-chevron">▾</span>
+        </div>
+        <div class="step-body">
+          <p class="step-why"><strong>Think of this as:</strong> "Tell me everything that changed in GitHub." Nothing moves. Nothing breaks. It just downloads information so Git knows what exists on the remote.</p>
+          <div class="cmd-block">
+            <code>git fetch origin</code>
+          </div>
+          <div class="cmd-tags"><span class="ctag ctag-git">Git</span></div>
+        </div>
+      </div>
+
+      <div class="step" id="s3">
+        <div class="step-hd" onclick="toggleStep('s3')">
+          <div class="step-num">3</div>
+          <span class="step-name">Update your local develop branch</span>
+          <span class="step-chevron">▾</span>
+        </div>
+        <div class="step-body">
+          <p class="step-why">Your teammates have been committing to <code style="font-family:JetBrains Mono,monospace; background:var(--surface2); padding:1px 5px; border-radius:3px;">develop</code> all day. You need your local copy to match GitHub's version before you can merge from it.</p>
+          <div class="cmd-block">
+            <div class="cmd-block-label">Switch to develop</div>
+            <code>git checkout develop</code>
+          </div>
+          <div class="cmd-block">
+            <div class="cmd-block-label">Pull the latest</div>
+            <code>git pull origin develop</code>
+          </div>
+          <div class="cmd-tags"><span class="ctag ctag-git">Git</span></div>
+          <div class="note-green">✓ Your local develop now matches GitHub.</div>
+        </div>
+      </div>
+
+      <div class="step" id="s4">
+        <div class="step-hd" onclick="toggleStep('s4')">
+          <div class="step-num">4</div>
+          <span class="step-name">Switch back to your feature branch</span>
+          <span class="step-chevron">▾</span>
+        </div>
+        <div class="step-body">
+          <p class="step-why">You updated develop — now go back to where your work lives so you can bring those updates in.</p>
+          <div class="cmd-block">
+            <code>git checkout feature/your-story-name</code>
+          </div>
+          <div class="cmd-tags"><span class="ctag ctag-git">Git</span></div>
+          <p style="font-size:12px; color:var(--text-secondary); margin-top:10px;">Replace <code style="font-family:JetBrains Mono,monospace; background:var(--surface2); padding:1px 5px; border-radius:3px;">your-story-name</code> with your actual branch name. You can see it from Step 1.</p>
+        </div>
+      </div>
+
+      <div class="step" id="s5">
+        <div class="step-hd" onclick="toggleStep('s5')">
+          <div class="step-num">5</div>
+          <span class="step-name">Bring latest develop into your branch</span>
+          <span class="step-chevron">▾</span>
+        </div>
+        <div class="step-body">
+          <p class="step-why">This is the key step — you're pulling your teammates' latest changes into your branch so you're working with the full, current codebase.</p>
+          <div class="decision-box">
+            <div class="decision-box-title">🤔 Decision point — Merge or Rebase?</div>
+            <div class="decision-opts">
+              <div class="d-opt">
+                <div class="d-opt-label">Option A — Merge (most common)</div>
+                <code>git merge develop</code>
+                <p>Safe. Simple. Creates a merge commit. Hard to mess up. ✅ Use for your everyday sync.</p>
+              </div>
+              <div class="d-opt">
+                <div class="d-opt-label">Option B — Rebase (before a PR)</div>
+                <code>git rebase develop</code>
+                <p>Cleaner history. Your commits sit on top of the latest develop. ✅ Preferred right before opening a PR.</p>
+              </div>
+            </div>
+          </div>
+          <div class="cmd-tags"><span class="ctag ctag-git">Git</span></div>
+        </div>
+      </div>
+
+      <div class="step" id="s6">
+        <div class="step-hd" onclick="toggleStep('s6')">
+          <div class="step-num">6</div>
+          <span class="step-name">Verify you are up to date</span>
+          <span class="step-chevron">▾</span>
+        </div>
+        <div class="step-body">
+          <p class="step-why">Quick sanity check. You're looking for "Your branch is up to date." The graph command gives you a visual of recent commits.</p>
+          <div class="cmd-block">
+            <div class="cmd-block-label">Status check</div>
+            <code>git status</code>
+          </div>
+          <div class="cmd-block">
+            <div class="cmd-block-label">Visual commit graph (optional but useful)</div>
+            <code>git log --oneline --graph --decorate -10</code>
+          </div>
+          <div class="cmd-tags"><span class="ctag ctag-git">Git</span></div>
+          <div class="note-green">✓ You should see: Your branch is up to date with 'origin/develop'</div>
+        </div>
+      </div>
+
+    </div><!-- /steps -->
+
+    <!-- BEFORE PR SPECIAL SEQUENCE -->
+    <div class="pr-flow-box">
+      <div class="section-eyebrow">📬 Before Creating a Pull Request — use this sequence</div>
+      <div class="qr-wrap" style="margin-bottom:0; border-radius:9px;">
+        <pre class="qr-pre"><span class="c-git">git fetch origin</span>
+<span class="c-git">git checkout develop</span>
+<span class="c-git">git pull origin develop</span>
+<span class="c-git">git checkout feature/my-story</span>
+<span class="c-git">git rebase develop</span>
+<span class="c-comment"># Run your tests. Resolve any conflicts.</span>
+<span class="c-git">git push <span class="c-flag">--force-with-lease</span></span>
+<span class="c-comment"># --force-with-lease is safe. Only use it after a rebase.</span></pre>
+      </div>
+    </div>
+
+    <!-- WATCH OUT -->
+    <div class="watch-box">
+      <span class="watch-icon">⚠️</span>
+      <div>
+        <strong>Watch out — Salesforce metadata conflicts</strong>
+        <p>Apex classes, LWC files, permission sets, and flows conflict just like code — but they're harder to read. If you see <code style="font-family:JetBrains Mono,monospace; background:var(--orange-bg); padding:1px 5px; border-radius:3px;">CONFLICT (content): Merge conflict in AccountService.cls</code>, open it in VS Code, fix the conflict markers, then run <code style="font-family:JetBrains Mono,monospace; background:var(--orange-bg); padding:1px 5px; border-radius:3px;">git add . → git commit</code> (merge) or <code style="font-family:JetBrains Mono,monospace; background:var(--orange-bg); padding:1px 5px; border-radius:3px;">git add . → git rebase --continue</code> (rebase). Sync often and these stay small.</p>
+      </div>
+    </div>
+
+  </div><!-- /module 1 -->
+
+  <!-- ══ COMING SOON PAGES ══ -->
+  <div class="page" id="page-m2">
+    <div class="breadcrumb"><span class="bc-link" onclick="show('home')">Home</span> › Start a New Story</div>
+    <h1 class="lesson-title">🌿 Start a New Story</h1>
+    <div class="cs-page">
+      <div class="cs-icon">🌿</div>
+      <h2>Coming Soon</h2>
+      <p>Branch naming conventions for enterprise Salesforce teams, creating from the right base branch,<br>linking to your Jira ticket, and opening in VS Code ready to work.</p>
+      <div class="cs-grid">
+        <div class="cs-item"><span class="cs-item-icon">🏷️</span><div><strong>Branch naming</strong><span>feature/story-123-short-desc</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">🌿</span><div><strong>Create from develop</strong><span>git checkout -b</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">🔗</span><div><strong>Link to ticket</strong><span>Jira / work item</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">💻</span><div><strong>Open in VS Code</strong><span>code .</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-m3">
+    <div class="breadcrumb"><span class="bc-link" onclick="show('home')">Home</span> › SF CLI Core</div>
+    <h1 class="lesson-title">☁️ SF CLI Core</h1>
+    <div class="cs-page">
+      <div class="cs-icon">☁️</div>
+      <h2>Coming Soon</h2>
+      <p>Auth and org setup, push/pull metadata, run Apex tests, scratch org management — the commands you run every day.</p>
+      <div class="cs-grid">
+        <div class="cs-item"><span class="cs-item-icon">🔑</span><div><strong>Org auth</strong><span>sf org login web</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">⬆️</span><div><strong>Deploy metadata</strong><span>sf project deploy start</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">🧪</span><div><strong>Run Apex tests</strong><span>sf apex run test</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">🏗️</span><div><strong>Scratch orgs</strong><span>Create &amp; delete</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-m5">
+    <div class="breadcrumb"><span class="bc-link" onclick="show('home')">Home</span> › Commit &amp; Push</div>
+    <h1 class="lesson-title">📦 Commit &amp; Push</h1>
+    <div class="cs-page">
+      <div class="cs-icon">📦</div>
+      <h2>Coming Soon</h2>
+      <p>Stage your changes, write a good commit message, push to GitHub, and use force-with-lease safely after a rebase.</p>
+      <div class="cs-grid">
+        <div class="cs-item"><span class="cs-item-icon">➕</span><div><strong>Stage changes</strong><span>git add / git add -p</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">✍️</span><div><strong>Commit messages</strong><span>Conventional commits</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">⬆️</span><div><strong>Push your branch</strong><span>git push origin</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">💪</span><div><strong>Force push safely</strong><span>--force-with-lease</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-m6">
+    <div class="breadcrumb"><span class="bc-link" onclick="show('home')">Home</span> › Pull Requests</div>
+    <h1 class="lesson-title">📬 Pull Requests</h1>
+    <div class="cs-page">
+      <div class="cs-icon">📬</div>
+      <h2>Coming Soon</h2>
+      <p>Pre-PR checklist, creating the PR from CLI or GitHub, responding to review comments, and merging like a senior dev.</p>
+      <div class="cs-grid">
+        <div class="cs-item"><span class="cs-item-icon">✅</span><div><strong>Pre-PR checklist</strong><span>Sync, test, review</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">📝</span><div><strong>Create the PR</strong><span>CLI or GitHub UI</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">💬</span><div><strong>Review feedback</strong><span>Push your fixes</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">🔀</span><div><strong>Merge cleanly</strong><span>Squash if needed</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-mc">
+    <div class="breadcrumb"><span class="bc-link" onclick="show('home')">Home</span> › Resolve Conflicts</div>
+    <h1 class="lesson-title">⚔️ Resolve Conflicts</h1>
+    <div class="cs-page">
+      <div class="cs-icon">⚔️</div>
+      <h2>Coming Soon</h2>
+      <p>How conflicts appear in Salesforce metadata, step-by-step resolution in VS Code, abort commands, and tips for Apex and LWC files.</p>
+      <div class="cs-grid">
+        <div class="cs-item"><span class="cs-item-icon">🔍</span><div><strong>Spot conflicts</strong><span>Conflict markers in files</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">🛠️</span><div><strong>VS Code resolver</strong><span>Accept current / incoming</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">✅</span><div><strong>After resolving</strong><span>git add . → commit</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">↩️</span><div><strong>Abort if needed</strong><span>git merge --abort</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-m7">
+    <div class="breadcrumb"><span class="bc-link" onclick="show('home')">Home</span> › Codespaces &amp; AI</div>
+    <h1 class="lesson-title">🤖 Codespaces &amp; AI Agents</h1>
+    <div class="cs-page">
+      <div class="cs-icon">🤖</div>
+      <h2>Coming Soon</h2>
+      <p>Opening repos in Codespaces, staying in sync from a cloud environment, and using Codex/AI agents safely in a shared team repo.</p>
+      <div class="cs-grid">
+        <div class="cs-item"><span class="cs-item-icon">☁️</span><div><strong>Open in Codespaces</strong><span>From GitHub repo</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">🔄</span><div><strong>Sync from cloud</strong><span>Fetch &amp; pull in browser</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">🤖</span><div><strong>Use Codex safely</strong><span>Review before committing</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">👥</span><div><strong>Team awareness</strong><span>Avoid stepping on others</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-m8">
+    <div class="breadcrumb"><span class="bc-link" onclick="show('home')">Home</span> › Deployments</div>
+    <h1 class="lesson-title">🚀 Deployments</h1>
+    <div class="cs-page">
+      <div class="cs-icon">🚀</div>
+      <h2>Coming Soon</h2>
+      <p>Sandbox → staging → UAT → production. Manifest-based deployments with package.xml, quick deploy, and rollback steps.</p>
+      <div class="cs-grid">
+        <div class="cs-item"><span class="cs-item-icon">📋</span><div><strong>package.xml deploy</strong><span>sf project deploy start</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">⚡</span><div><strong>Quick deploy</strong><span>After validation passes</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">🏗️</span><div><strong>Env sequence</strong><span>Sandbox → UAT → Prod</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">↩️</span><div><strong>Rollback plan</strong><span>When things go wrong</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-m9">
+    <div class="breadcrumb"><span class="bc-link" onclick="show('home')">Home</span> › Apex &amp; LWC</div>
+    <h1 class="lesson-title">⚙️ Apex &amp; LWC</h1>
+    <div class="cs-page">
+      <div class="cs-icon">⚙️</div>
+      <h2>Coming Soon</h2>
+      <p>File structure in VS Code, always retrieve before you edit, deploy single files, run specific test classes, and scaffold a new LWC component.</p>
+      <div class="cs-grid">
+        <div class="cs-item"><span class="cs-item-icon">📁</span><div><strong>File structure</strong><span>Apex &amp; LWC layout</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">⬇️</span><div><strong>Retrieve first</strong><span>Always before editing</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">🧪</span><div><strong>Run a test class</strong><span>sf apex run test -n</span></div></div>
+        <div class="cs-item"><span class="cs-item-icon">🏗️</span><div><strong>Scaffold LWC</strong><span>sf lightning generate</span></div></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const map = { home:'home',m1:'m1',m2:'m2',m3:'m3',m5:'m5',m6:'m6',mc:'mc',m7:'m7',m8:'m8',m9:'m9' };
+  const btns = document.querySelectorAll('.nav-btn');
+  const order = ['home','m1','m2','m5','m6','mc','m3','m8','m9','m7'];
+  const idx = order.indexOf(id);
+  if (idx >= 0 && btns[idx]) btns[idx].classList.add('active');
+  document.querySelector('.main').scrollTop = 0;
+}
+
+function toggleStep(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+function doCopy() {
+  const text = `# Daily Git Sync — Quick Reference (project-wilson-revenuepod)
+
+# 1. See where you are
+git status
+
+# 2. Download everything from GitHub (safe — nothing changes yet)
+git fetch origin
+
+# 3. Update your local develop to match GitHub
+git checkout develop
+git pull origin develop
+
+# 4. Go back to your feature branch
+git checkout feature/your-story
+
+# 5. Bring in the latest develop changes
+git merge develop
+#  — or, before a PR (cleaner history) —
+git rebase develop
+
+# 6. Confirm everything is up to date
+git status
+git log --oneline --graph --decorate -10
+
+# ── Before creating a PR ──
+git fetch origin
+git checkout develop
+git pull origin develop
+git checkout feature/my-story
+git rebase develop
+# Run tests. Resolve conflicts.
+git push --force-with-lease`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copybtn');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = 'Copy all', 2200);
+  });
+}
+</script>
+</body>
+</html>
