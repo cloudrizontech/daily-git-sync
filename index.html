@@ -135,6 +135,7 @@ body {
 
 .badge-ready { background: var(--green-bg); color: var(--green); }
 .badge-soon  { background: var(--surface2); color: var(--text-muted); }
+.badge-growing { background: var(--purple-bg); color: var(--purple); }
 
 /* ── MAIN ── */
 .main {
@@ -837,6 +838,16 @@ body {
   line-height: 1.55;
 }
 
+/* ── GOTCHAS & ANSWERS ── */
+.gotcha-date {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -853,7 +864,7 @@ body {
       <div class="logo-icon">⚡</div>
       <span class="logo-name">My GIT Learning Portal</span>
     </div>
-    <div class="logo-sub">Your personal command reference</div>
+    <div class="logo-sub">Guided Step-by-Step Learning</div>
   </div>
 
   <div class="nav-group">
@@ -927,6 +938,15 @@ body {
       <span class="nav-dot" style="background:#6B3FA0"></span>
       Codespaces &amp; AI
       <span class="nav-badge badge-soon">Soon</span>
+    </button>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Personal Notes</div>
+    <button class="nav-btn" onclick="show('gotchas')">
+      <span class="nav-dot" style="background:#6B3FA0"></span>
+      Gotchas &amp; Answers
+      <span class="nav-badge badge-growing">🌱 Growing</span>
     </button>
   </div>
 </aside>
@@ -1615,6 +1635,58 @@ body {
     </div>
   </div>
 
+  <!-- ══ GOTCHAS & ANSWERS ══ -->
+  <div class="page" id="page-gotchas">
+
+    <div class="breadcrumb">
+      <span class="bc-link" onclick="show('home')">Home</span>
+      <span>›</span>
+      <span style="color:var(--text); font-weight:500;">Gotchas &amp; Answers</span>
+    </div>
+
+    <h1 class="lesson-title">🧩 Gotchas &amp; Answers</h1>
+
+    <div class="chips">
+      <span class="chip chip-git">⎇ Git</span>
+      <span class="chip chip-vsc">VS Code</span>
+      <span class="chip chip-daily">📓 Personal log</span>
+    </div>
+
+    <div class="trigger-box">
+      <span class="trigger-box-icon">📓</span>
+      <div>
+        <strong>What this page is</strong>
+        <p>A running log of things that confused me, questions that came up while working in VS Code, the answers I found, and explanations I want to remember. This section keeps growing as I learn — add a new card any time something trips me up.</p>
+      </div>
+    </div>
+
+    <div class="cheat-group-title">⎇ Git</div>
+
+    <div class="cheat-card">
+      <h3>❓ What does "detached HEAD" mean?<span class="gotcha-date">2026-08-21</span></h3>
+      <p class="desc"><strong>What tripped me up:</strong> VS Code's Source Control panel showed a warning after I checked out a specific commit instead of a branch.</p>
+      <div class="note-green">✅ Answer: "Detached HEAD" means I'm looking at a specific commit directly, not a branch. Any new commits I make here aren't attached to a branch, so they can get lost once I switch away.</div>
+      <div class="cheat-tip">💡 Why it matters: If I want to keep changes made in this state, run <code style="font-family:'JetBrains Mono',monospace; background:var(--surface); padding:1px 5px; border-radius:4px;">git checkout -b new-branch-name</code> before switching away — that saves the commits onto a real branch.</div>
+    </div>
+
+    <div class="cheat-card">
+      <h3>❓ Why did <code style="font-family:'JetBrains Mono',monospace; background:var(--surface2); padding:1px 5px; border-radius:4px;">git push</code> get rejected with "non-fast-forward"?<span class="gotcha-date">2026-08-21</span></h3>
+      <p class="desc"><strong>What tripped me up:</strong> Pushed to my feature branch and got "Updates were rejected because the remote contains work that you do not have locally."</p>
+      <div class="note-green">✅ Answer: Someone else (or another machine I was using) pushed commits to the same branch after my local copy was last updated. My local history and the remote history had diverged.</div>
+      <div class="cheat-tip">💡 Why it matters: Fix with <code style="font-family:'JetBrains Mono',monospace; background:var(--surface); padding:1px 5px; border-radius:4px;">git pull</code> (merge) or <code style="font-family:'JetBrains Mono',monospace; background:var(--surface); padding:1px 5px; border-radius:4px;">git pull --rebase</code>, resolve any conflicts, then push again. Never use <code style="font-family:'JetBrains Mono',monospace; background:var(--surface); padding:1px 5px; border-radius:4px;">--force</code> here unless I'm 100% sure I want to overwrite the remote — prefer <code style="font-family:'JetBrains Mono',monospace; background:var(--surface); padding:1px 5px; border-radius:4px;">--force-with-lease</code>.</div>
+    </div>
+
+    <div class="cheat-group-title">💻 VS Code</div>
+
+    <div class="cheat-card">
+      <h3>❓ What's the difference between "Staged Changes" and "Changes" in Source Control?<span class="gotcha-date">2026-08-21</span></h3>
+      <p class="desc"><strong>What tripped me up:</strong> I clicked commit and only some of my edits showed up in the commit.</p>
+      <div class="note-green">✅ Answer: "Changes" = edited files not yet marked for the next commit (same as unstaged in <code style="font-family:'JetBrains Mono',monospace; background:var(--surface2); padding:1px 5px; border-radius:4px;">git status</code>). "Staged Changes" = files marked to be included in the next commit (same as <code style="font-family:'JetBrains Mono',monospace; background:var(--surface2); padding:1px 5px; border-radius:4px;">git add</code>). Only staged files get committed.</div>
+      <div class="cheat-tip">💡 Why it matters: Click the <code style="font-family:'JetBrains Mono',monospace; background:var(--surface); padding:1px 5px; border-radius:4px;">+</code> next to a file (or "Stage All Changes") to move it from Changes → Staged Changes before committing.</div>
+    </div>
+
+  </div><!-- /gotchas -->
+
 </main>
 </div>
 
@@ -1623,9 +1695,9 @@ function show(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  const map = { home:'home',cheatsheet:'cheatsheet',m1:'m1',m2:'m2',m3:'m3',m5:'m5',m6:'m6',mc:'mc',m7:'m7',m8:'m8',m9:'m9' };
+  const map = { home:'home',cheatsheet:'cheatsheet',m1:'m1',m2:'m2',m3:'m3',m5:'m5',m6:'m6',mc:'mc',m7:'m7',m8:'m8',m9:'m9',gotchas:'gotchas' };
   const btns = document.querySelectorAll('.nav-btn');
-  const order = ['home','cheatsheet','m1','m2','m5','m6','mc','m3','m8','m9','m7'];
+  const order = ['home','cheatsheet','m1','m2','m5','m6','mc','m3','m8','m9','m7','gotchas'];
   const idx = order.indexOf(id);
   if (idx >= 0 && btns[idx]) btns[idx].classList.add('active');
   document.querySelector('.main').scrollTop = 0;
