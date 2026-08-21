@@ -734,6 +734,109 @@ body {
 
 .cs-item span { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
 
+/* ── TABS (Cheat Sheet) ── */
+.tab-nav {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 22px;
+  background: var(--surface2);
+  padding: 4px;
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.tab-btn {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 7px;
+  background: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { background: var(--surface); color: var(--accent); box-shadow: var(--shadow); }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.cheat-group-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.3px;
+  margin: 28px 0 12px;
+}
+
+.cheat-group-title:first-child { margin-top: 0; }
+
+.cheat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+
+.cheat-card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cheat-step-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.cheat-card p.desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.cheat-card ol, .cheat-card ul {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  padding-left: 18px;
+}
+
+.cheat-card ol code, .cheat-card ul code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  background: var(--surface2);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.cheat-tip {
+  font-size: 12px;
+  color: var(--text);
+  margin-top: 10px;
+  background: var(--accent-light);
+  border-radius: 6px;
+  padding: 8px 12px;
+  line-height: 1.55;
+}
+
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -758,6 +861,15 @@ body {
     <button class="nav-btn active" onclick="show('home')">
       <span class="nav-dot" style="background:#2D6BE4"></span>
       Home
+    </button>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Reference</div>
+    <button class="nav-btn" onclick="show('cheatsheet')">
+      <span class="nav-dot" style="background:#2D6BE4"></span>
+      Cheat Sheet
+      <span class="nav-badge badge-ready">✓ Ready</span>
     </button>
   </div>
 
@@ -920,6 +1032,230 @@ body {
       <p class="flow-note">Before any meaningful work: make sure <strong>Layer 1 → 2 → 3</strong> are all in sync. Then deploy to your org. That's the whole game.</p>
     </div>
   </div>
+
+  <!-- ══ CHEAT SHEET ══ -->
+  <div class="page" id="page-cheatsheet">
+
+    <div class="breadcrumb">
+      <span class="bc-link" onclick="show('home')">Home</span>
+      <span>›</span>
+      <span style="color:var(--text); font-weight:500;">Cheat Sheet</span>
+    </div>
+
+    <h1 class="lesson-title"> Daily Sync Cheat Sheet</h1>
+
+    <div class="chips">
+      <span class="chip chip-git">⎇ Git</span>
+      <span class="chip chip-vsc">GitHub Pages</span>
+    </div>
+
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="showTab(this, 'v1')">Version 1</button>
+      <button class="tab-btn" onclick="showTab(this, 'v2')">Version 2</button>
+    </div>
+
+    <!-- ── TAB: VERSION 1 ── -->
+    <div class="tab-panel active" id="tab-v1">
+
+      <div class="cheat-group-title">🔄 Daily Git Workflow v1</div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">1</span> Cut a Feature Branch from Develop</h3>
+        <p class="desc">Start by syncing your local develop branch with the remote repository:</p>
+        <div class="cmd-block">
+          <code>git checkout develop</code>
+          <code>git pull origin develop</code>
+          <code>git checkout -b feature/your-update-name</code>
+        </div>
+      </div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">2</span> Work on index.html and Push Changes</h3>
+        <p class="desc">Make modifications, stage, and push your branch:</p>
+        <div class="cmd-block">
+          <code>git add index.html</code>
+          <code>git commit -m "Update index.html layout"</code>
+          <code>git push origin feature/your-update-name</code>
+        </div>
+      </div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">3</span> Merge Feature to Develop</h3>
+        <p class="desc">Open a Pull Request on GitHub from your feature branch into develop and merge it.</p>
+      </div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">4</span> Update Main (Production Copy)</h3>
+        <p class="desc">After testing on develop, create a final PR from develop into main to update your live site.</p>
+      </div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">5</span> Verify Changes in Main Branch</h3>
+        <p class="desc">Confirm your work reached production:</p>
+        <div class="cmd-block">
+          <code>git checkout main</code>
+          <code>git pull origin main</code>
+          <code>git log -n 5 --oneline</code>
+        </div>
+      </div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">6</span> Remove Branches After Deployment</h3>
+        <div class="cmd-block">
+          <div class="cmd-block-label">Delete local branch</div>
+          <code>git branch -d feature/your-update-name</code>
+        </div>
+        <div class="cmd-block">
+          <div class="cmd-block-label">Clean up remote tracking references</div>
+          <code>git fetch --prune</code>
+        </div>
+        <div class="cmd-block">
+          <div class="cmd-block-label">Reset to develop</div>
+          <code>git checkout develop</code>
+        </div>
+        <div class="cmd-block">
+          <div class="cmd-block-label">Delete from GitHub</div>
+          <code>git push origin --delete feature/&lt;branch-name&gt;</code>
+        </div>
+      </div>
+
+      <div class="cheat-group-title">🛡️ Safe Branch Deletion Process</div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">1</span> Clean Up GitHub (Remote)</h3>
+        <p class="desc">Delete the branch either through the web interface (purple Delete button) or via terminal:</p>
+        <div class="cmd-block">
+          <code>git push origin --delete &lt;feature-branch-name&gt;</code>
+        </div>
+      </div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">2</span> Sync Your Local Repository</h3>
+        <ol>
+          <li>Switch to main: <code>git checkout main</code></li>
+          <li>Pull latest updates: <code>git pull origin main</code></li>
+          <li>Prune stale references: <code>git fetch --prune</code></li>
+        </ol>
+      </div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">3</span> Verify Safety</h3>
+        <p class="desc">Run a sanity check to ensure the branch is fully merged:</p>
+        <div class="cmd-block">
+          <code>git branch --merged</code>
+        </div>
+        <div class="note-green">✓ If your feature branch appears in the list, it's safe to delete.</div>
+      </div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">4</span> Delete Local Branch</h3>
+        <p class="desc">Use the safe deletion command with lowercase <code style="font-family:'JetBrains Mono',monospace; background:var(--surface2); padding:1px 5px; border-radius:4px;">-d</code>:</p>
+        <div class="cmd-block">
+          <code>git branch -d &lt;feature-branch-name&gt;</code>
+        </div>
+        <div class="watch-box" style="margin-top:14px;">
+          <span class="watch-icon">⚠️</span>
+          <div>
+            <strong>Why lowercase -d matters</strong>
+            <p>The <code style="font-family:'JetBrains Mono',monospace; background:var(--orange-bg); padding:1px 5px; border-radius:4px;">-d</code> flag will only execute if the branch has been fully merged into your current checked-out branch. This prevents accidental data loss. Avoid <code style="font-family:'JetBrains Mono',monospace; background:var(--orange-bg); padding:1px 5px; border-radius:4px;">-D</code> unless deliberately discarding unmerged work.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cheat-group-title">✅ Best Practices</div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">1</span> Prevent "Stale Branch" Merges (The Stash Guard)</h3>
+        <p class="desc">Use Git Stash to temporarily save work-in-progress when interrupted:</p>
+        <div class="cmd-block">
+          <code style="color:var(--text-muted); font-style:italic;"># Save uncommitted changes</code>
+          <code>git stash</code>
+          <code style="color:var(--text-muted); font-style:italic;"># Do your updates or branch switches</code>
+          <code>git checkout develop</code>
+          <code>git pull origin develop</code>
+          <code>git checkout feature/your-update-name</code>
+          <code style="color:var(--text-muted); font-style:italic;"># Restore your changes</code>
+          <code>git stash pop</code>
+        </div>
+      </div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">2</span> Standardize Commit Messages</h3>
+        <p class="desc">Adopt a lightweight Conventional Commits approach:</p>
+        <ul>
+          <li><code>feat: add contact form section to index.html</code></li>
+          <li><code>fix: repair broken image link in footer</code></li>
+          <li><code>style: change hero section background color</code></li>
+        </ul>
+      </div>
+
+    </div><!-- /tab-v1 -->
+
+    <!-- ── TAB: VERSION 2 ── -->
+    <div class="tab-panel" id="tab-v2">
+
+      <div class="cheat-group-title">🔄 Daily Git Workflow v2</div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">1</span> Start: Sync &amp; Cut a Feature Branch</h3>
+        <p class="desc">Base new work on the latest staging code:</p>
+        <div class="cmd-block">
+          <code>git checkout develop</code>
+          <code>git pull origin develop</code>
+          <code>git checkout -b feature/your-update-name</code>
+        </div>
+      </div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">2</span> Work: Edit &amp; Commit</h3>
+        <p class="desc">Edit index.html and use Conventional Commits:</p>
+        <div class="cmd-block">
+          <code>git add index.html</code>
+          <code>git commit -m "style: update hero layout on index.html"</code>
+          <code>git push origin feature/your-update-name</code>
+        </div>
+        <div class="cheat-tip">💡 <strong>Tip:</strong> Use <code style="font-family:'JetBrains Mono',monospace; background:var(--surface); padding:1px 5px; border-radius:4px;">git stash</code> if you need to pause mid-work to update develop.</div>
+      </div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">3</span> Staging: Merge Feature into Develop</h3>
+        <ol>
+          <li>Go to GitHub</li>
+          <li>Open a PR: feature/your-update-name → develop</li>
+          <li>Review and merge</li>
+          <li>Check your development URL</li>
+        </ol>
+      </div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">4</span> Production: Merge Develop into Main</h3>
+        <ol>
+          <li>Open a new PR: develop → main</li>
+          <li>Merge to update your live GitHub Pages site</li>
+        </ol>
+      </div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">5</span> Verify: Check Live Deployment</h3>
+        <div class="cmd-block">
+          <code>git checkout main</code>
+          <code>git pull origin main</code>
+          <code>git log -n 5 --oneline</code>
+        </div>
+      </div>
+
+      <div class="cheat-card">
+        <h3><span class="cheat-step-num">6</span> Cleanup: Reset Workspace</h3>
+        <div class="cmd-block">
+          <code>git branch -d feature/your-update-name</code>
+          <code>git fetch --prune</code>
+          <code>git checkout develop</code>
+        </div>
+      </div>
+
+    </div><!-- /tab-v2 -->
+
+  </div><!-- /cheat sheet -->
 
   <!-- ══ MODULE 1: DAILY GIT SYNC ══ -->
   <div class="page" id="page-m1">
@@ -1287,9 +1623,9 @@ function show(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  const map = { home:'home',m1:'m1',m2:'m2',m3:'m3',m5:'m5',m6:'m6',mc:'mc',m7:'m7',m8:'m8',m9:'m9' };
+  const map = { home:'home',cheatsheet:'cheatsheet',m1:'m1',m2:'m2',m3:'m3',m5:'m5',m6:'m6',mc:'mc',m7:'m7',m8:'m8',m9:'m9' };
   const btns = document.querySelectorAll('.nav-btn');
-  const order = ['home','m1','m2','m5','m6','mc','m3','m8','m9','m7'];
+  const order = ['home','cheatsheet','m1','m2','m5','m6','mc','m3','m8','m9','m7'];
   const idx = order.indexOf(id);
   if (idx >= 0 && btns[idx]) btns[idx].classList.add('active');
   document.querySelector('.main').scrollTop = 0;
@@ -1297,6 +1633,15 @@ function show(id) {
 
 function toggleStep(id) {
   document.getElementById(id).classList.toggle('open');
+}
+
+function showTab(btn, id) {
+  const nav = btn.closest('.tab-nav');
+  const container = nav.parentElement;
+  container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  container.querySelector('#tab-' + id).classList.add('active');
+  nav.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
 }
 
 function doCopy() {
